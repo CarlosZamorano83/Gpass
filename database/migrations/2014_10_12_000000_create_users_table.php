@@ -17,6 +17,8 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email');
+
+            // Para hacer el email unico pondria $table->string('email')->unique()->index;
             $table->string('password');
             $table->integer('rol_id');
             

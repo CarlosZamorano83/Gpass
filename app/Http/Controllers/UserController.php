@@ -40,14 +40,27 @@ class UserController extends Controller
 
     // crear usuario
     public function store(Request $request)
+
+    
     {
         $user = new Users();
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
-        $user->rol_id = 2;
 
+        if (strlen($request->password) > 7)
+        {
+
+        $user->password = bcrypt($request->password);
+        }else
+
+        {
+            return response()->json(['error' => 'el password debe tener como minimo 8 caracteres', 400]);
+
+
+        }
+
+        $user->rol_id = 2;
         $user->save();
     }
 
@@ -59,6 +72,7 @@ class UserController extends Controller
      */
 
 	public function login()
+
     {
     	
 
@@ -72,11 +86,13 @@ class UserController extends Controller
         
         if ($user->password == $_POST['password']) 
         {
-            
             $tokenParams = [
                 //'name' => $_POST['name'],
                 'password' => $_POST['password'],
                 'email'=> $_POST['email'],
+                'name'=> $user->name,
+                'id'=> $user->id,
+
                 
                 'random' => time()
             ];
@@ -85,7 +101,9 @@ class UserController extends Controller
                 'token' => $token,
             ]);
         } 
+
         else 
+            
         {
             return $this->response('login incorrecto', 401);
         }
@@ -99,7 +117,7 @@ class UserController extends Controller
         return response($body, $code)->header('Content-Type', 'application/json');
     }
 
-    public function show(Song $song)
+    public function show(UserController $users)
     {
       
         $headers = getallheaders();
