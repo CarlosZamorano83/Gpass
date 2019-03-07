@@ -2,27 +2,16 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class Rol extends Authenticatable
+class Rols extends Model
 {
     protected $table = 'rols';
-    protected $fillable = 'name';
+    protected $fillable = ['name'];
 
-
-   
-
-    public function users(){
-        // 1:N
+    public function users()
+    {	
+    	// 1:N
         return $this->hasMany('App\Users');
-        
-
-        
-    
-
-
-
-
+    }
 }

@@ -7,49 +7,49 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use \Firebase\JWT\JWT;
-use App\User;
+use App\Users;
+
 
 class Controller extends BaseController
+
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
-    protected $key = '^fg?4xtyDXcjb5c__aXWb$J?2wn#9jBB4Wbc68d4YUDsB*ZuQ$p4b!rj';
+
+    protected $key = '7kvP3yy3b4SGpVzd6uSeSBhBEDtGzPb2n';
 
     protected function error($code, $message)
     {
-        $json = ['message' => $message];
-        $json = json_encode($json);
-        return  response($json, $code)->header('Access-Control-Allow-Origin', '*');
+        return  response()->json([
+            'code' => $code,
+            'message' => $message
+        ], $code);
     }
 
     protected function success($message, $data = [])
     {
-    	$json = ['message' => $message, 'data' => $data];
+        $json = ['message' => $message, 'data' => $data];
         $json = json_encode($json);
         return  response($json, 200)->header('Access-Control-Allow-Origin', '*');
     }
 
-    protected function userLogged()
-	{
-		if ($this->isUserLogged) 
-		{
-			$userLogged = User::where('email', $userSave->email )->first();
-		}
-		return $userLogged;
-	}
-
-	protected function checkLogin($email, $password)
+    protected function checkLogin($email, $password)
     {
-        $userSave = User::where('email', $email)->first();
+        $userSave = Users::where('email', $email)->first();
 
         $emailSave = $userSave->email;
-        $passwordSave = $userSave->password;
 
-        if($emailSave == $email && $passwordSave == $password)
+        $passwordSave = $userSave->password;
+        $decryptedSave = decrypt($passwordSave);
+
+        if($emailSave == $email && $decryptedSave == $password)
         {
             return true;
         }
         return false;
     }
-}   
 
+
+    
+    
+
+}

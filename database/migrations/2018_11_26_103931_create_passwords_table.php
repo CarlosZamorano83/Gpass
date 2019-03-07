@@ -17,8 +17,10 @@ class CreatePasswordsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('password');
-            $table->integer('user_id');
-            $table->integer('category_id');
+            $table->integer('users_id');
+            $table->integer('category_id')->nullable();
+            $table->timestamps();
+
         });
     }
 

@@ -16,8 +16,17 @@ class CreateRolsTable extends Migration
     {
         Schema::create('rols', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name',30)->unique();
+            $table->timestamps();
         });
+
+        $rol = new App\Rols();
+        $rol->name = 'admin';
+        $rol->save();
+
+        $rol= new App\Rols();
+        $rol->name = 'final';
+        $rol->save();
     }
 
     /**

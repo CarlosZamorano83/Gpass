@@ -2,31 +2,21 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class Passwords extends Model
 {
     protected $table = 'passwords';
-    protected $fillable = ['title', 'password', 'id_usuario','id_category'];
+    protected $fillable = ['title, password'];
 
-
-    public function users(){
-        // N:1
-        return $this->belongsTo('App\Users');
-
-    }
-
-    public function categories(){
+    public function categories()
+    {   
         // N:1
         return $this->belongsTo('App\Categories');
-        
-
-        
     }
 
-    
-
-
+    public function users()
+    {
+        return $this->belongsTo('App\Users');
+    }
 }

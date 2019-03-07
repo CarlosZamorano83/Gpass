@@ -18,15 +18,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 });
 
-//Route::apiResource('prueba261118', 'prueba261118Controller');
-// Route::apiResource('songs', 'SongController');
+Route::apiResource('users', 'UsersController');
 
-Route::apiResource('user', 'UserController');
+Route::post ('register', 'UsersController@register');
+
+
+Route::post ('login', 'UsersController@login');
+
 
 Route::apiResource('password', 'PasswordController');
 
+Route::post('updatePassword', 'PasswordController@updatePassword');
+
+Route::post('deletePassword', 'PasswordController@deletePassword');
+
+
+
 Route::apiResource('category', 'CategoryController');
 
-Route::apiResource('role', 'RolController');
+Route::post('updateCategory', 'CategoryController@updateCategory');
 
-Route::Post('login', 'UserController@login');
+Route::post('deleteCategory', 'CategoryController@deleteCategory');
